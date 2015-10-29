@@ -18,7 +18,7 @@ module VagrantPlugins
           if (machine.communicate.test("uname -s | grep SunOS"))
             realhostfile = '/etc/inet/hosts'
             move_cmd = 'mv'
-          elsif (machine.communicate.test("test -d $Env:SystemRoot"))
+          elsif machine.guest.name == :windows
             windir = ""
             machine.communicate.execute("echo %SYSTEMROOT%", {:shell => :cmd}) do |type, contents|
               windir << contents.gsub("\r\n", '') if type == :stdout
