@@ -13,7 +13,11 @@ module VagrantPlugins
         end
 
         def update_guest(machine)
-          return unless machine.communicate.ready?
+          begin
+            return unless machine.communicate.ready?
+          rescue VagrantPlugins::CommunicatorWinRM::Errors::WinRMNotReady
+            return
+          end
 
           if (machine.communicate.test("uname -s | grep SunOS"))
             realhostfile = '/etc/inet/hosts'
